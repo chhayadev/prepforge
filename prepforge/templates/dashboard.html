@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h3 class="mb-1">Welcome, {{ student.full_name }}</h3>
+<p class="text-secondary mb-4">Roll No: {{ student.roll_number }} · Branch: {{ student.branch }} · CGPA: {{ student.cgpa }}</p>
+
+<div class="row g-3 mb-3">
+  <div class="col-md-6 col-lg-3">
+    <div class="pf-card">
+      <div class="text-secondary">Readiness score</div>
+      <div class="big">{{ readiness }}%</div>
+      <div class="bar"><i style="width: {{ readiness }}%"></i></div>
+      <span class="badge {{ level_class }} mt-2">{{ level }}</span>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <div class="pf-card">
+      <div class="text-secondary">Aptitude</div>
+      <div class="big">{{ apt }}%</div>
+      <div class="bar"><i style="width: {{ apt }}%"></i></div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <div class="pf-card">
+      <div class="text-secondary">Technical</div>
+      <div class="big">{{ tech }}%</div>
+      <div class="bar"><i style="width: {{ tech }}%"></i></div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <div class="pf-card">
+      <div class="text-secondary">Eligible jobs</div>
+      <div class="big">{{ eligible_count }}</div>
+      <div class="text-secondary">out of {{ company_count }} companies</div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-6">
+    <div class="pf-card">
+      <h5 class="mb-3">Next steps</h5>
+      {% for t in tips %}
+        <div class="mb-2">• {{ t }}</div>
+      {% empty %}
+        <div>You are on track. Apply to eligible jobs!</div>
+      {% endfor %}
+      <div class="mt-3">
+        <a href="{% url 'assessments' %}" class="btn pf-btn btn-sm">Take a test</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="pf-card">
+      <h5 class="mb-3">My applications</h5>
+      {% for a in applications %}
+        <div class="d-flex justify-content-between mb-2"><span>{{ a.company.name }} — {{ a.company.role }}</span><span class="tag">{{ a.status }}</span></div>
+      {% empty %}
+        <div class="text-secondary">No applications yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

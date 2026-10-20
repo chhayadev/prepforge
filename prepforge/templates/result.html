@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Result{% endblock %}
+
+{% block content %}
+<div class="form-box pf-card text-center">
+  <h3 class="text-capitalize">{{ category }} Test Result</h3>
+  <div class="big my-3">{{ score }}%</div>
+  <p class="text-secondary">{{ correct }} out of {{ total }} correct</p>
+  <p>Your readiness score is now <strong>{{ readiness }}%</strong></p>
+  <a href="{% url 'dashboard' %}" class="btn pf-btn">Go to Dashboard</a>
+  <a href="{% url 'assessments' %}" class="btn pf-btn-outline ms-2">More tests</a>
+</div>
+{% endblock %}

@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>PrepForge</title>
+    <style>
+      :root {
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        --bg: #f6f7fb;
+        --card: #fff;
+        --tx: #1b1f2a;
+        --mu: #667085;
+        --bd: #e3e6ee;
+        --ac: #4f46e5;
+        --ac2: #eef0ff;
+        --ok: #16a34a;
+        --wr: #d97706;
+        --er: #dc2626;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0f1220;
+          --card: #181c2e;
+          --tx: #eceefb;
+          --mu: #98a0bd;
+          --bd: #2a3050;
+          --ac: #8b86ff;
+          --ac2: #23274a;
+          --ok: #4ade80;
+          --wr: #fbbf24;
+          --er: #f87171;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0f1220;
+        --card: #181c2e;
+        --tx: #eceefb;
+        --mu: #98a0bd;
+        --bd: #2a3050;
+        --ac: #8b86ff;
+        --ac2: #23274a;
+        --ok: #4ade80;
+        --wr: #fbbf24;
+        --er: #f87171;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--tx);
+        font:
+          15px/1.5 system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 18px;
+        background: var(--card);
+        border-bottom: 1px solid var(--bd);
+      }
+      .logo {
+        font-weight: 800;
+        font-size: 19px;
+        color: var(--ac);
+      }
+      main {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+      nav {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        margin-bottom: 14px;
+      }
+      button,
+      select,
+      input {
+        font: inherit;
+        color: var(--tx);
+      }
+      .tab,
+      .btn {
+        border: 1px solid var(--bd);
+        background: var(--card);
+        padding: 7px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .tab.on,
+      .btn.p {
+        background: var(--ac);
+        color: #fff;
+        border-color: var(--ac);
+      }
+      .btn.s {
+        padding: 4px 10px;
+        font-size: 13px;
+      }
+      select,
+      input {
+        background: var(--card);
+        border: 1px solid var(--bd);
+        border-radius: 8px;
+        padding: 7px 10px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--bd);
+        border-radius: 12px;
+        padding: 14px;
+        margin-bottom: 12px;
+      }
+      .grid .card {
+        margin: 0;
+      }
+      h2 {
+        margin: 0 0 10px;
+        font-size: 17px;
+      }
+      h3 {
+        margin: 0 0 6px;
+        font-size: 15px;
+      }
+      .big {
+        font-size: 30px;
+        font-weight: 800;
+      }
+      .mu {
+        color: var(--mu);
+        font-size: 13px;
+      }
+      .bar {
+        height: 8px;
+        background: var(--ac2);
+        border-radius: 6px;
+        overflow: hidden;
+        margin-top: 6px;
+      }
+      .bar i {
+        display: block;
+        height: 100%;
+        background: var(--ac);
+      }
+      .tag {
+        display: inline-block;
+        font-size: 12px;
+        padding: 2px 8px;
+        border-radius: 99px;
+        background: var(--ac2);
+        color: var(--ac);
+        margin: 2px 4px 2px 0;
+      }
+      .tag.ok {
+        color: var(--ok);
+      }
+      .tag.wr {
+        color: var(--wr);
+      }
+      .tag.er {
+        color: var(--er);
+      }
+      .scroll {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 8px;
+        border-bottom: 1px solid var(--bd);
+        white-space: nowrap;
+      }
+      th {
+        color: var(--mu);
+        font-weight: 600;
+      }
+      .opt {
+        display: block;
+        width: 100%;
+        text-align: left;
+        margin: 5px 0;
+        padding: 9px 12px;
+        border: 1px solid var(--bd);
+        border-radius: 8px;
+        background: var(--card);
+        cursor: pointer;
+      }
+      .opt:hover {
+        border-color: var(--ac);
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+      }
+      form {
+        display: contents;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <span class="logo">⚒ PrepForge</span>
+      <div class="row" style="gap: 8px">
+        <select id="role"></select
+        ><select id="who"></select
+        ><button class="btn s" id="th">◐</button>
+      </div>
+    </header>
+    <main>
+      <nav id="nav"></nav>
+      <div id="v"></div>
+    </main>
+    <script>
+      const Q = {
+        aptitude: [
+          ["If 20% of x is 40, x = ?", ["100", "200", "160", "80"], 1],
+          ["Next: 2, 6, 12, 20, ?", ["28", "30", "32", "26"], 1],
+          [
+            "A train 120m long crosses a pole in 6s. Speed?",
+            ["20 m/s", "24 m/s", "18 m/s", "12 m/s"],
+            0,
+          ],
+          ["Ratio 3:5, sum 64. Larger number?", ["24", "32", "40", "36"], 2],
+          [
+            "Cost 80, sold at 20% profit. Selling price?",
+            ["96", "100", "90", "92"],
+            0,
+          ],
+        ],
+        technical: [
+          [
+            "Time complexity of binary search?",
+            ["O(n)", "O(log n)", "O(n log n)", "O(1)"],
+            1,
+          ],
+          ["Which structure is LIFO?", ["Queue", "Stack", "Heap", "Graph"], 1],
+          [
+            "SQL clause to filter groups?",
+            ["WHERE", "GROUP", "HAVING", "ORDER"],
+            2,
+          ],
+          [
+            "Which is NOT an OOP pillar?",
+            ["Inheritance", "Polymorphism", "Compilation", "Encapsulation"],
+            2,
+          ],
+          ["HTTP status for 'Not Found'?", ["200", "301", "500", "404"], 3],
+        ],
+      };
+      const STAGES = [
+        "Applied",
+        "Shortlisted",
+        "Interview",
+        "Selected",
+        "Rejected",
+      ];
+      const def = () => ({
+        students: [
+          {
+            id: 1,
+            name: "Aarav Sharma",
+            branch: "CSE",
+            cgpa: 8.7,
+            skills: ["Java", "SQL", "DSA"],
+            apt: 80,
+            tech: 100,
+            att: 2,
+          },
+          {
+            id: 2,
+            name: "Simran Kaur",
+            branch: "IT",
+            cgpa: 7.9,
+            skills: ["Python", "SQL"],
+            apt: 60,
+            tech: 60,
+            att: 1,
+          },
+          {
+            id: 3,
+            name: "Rohan Verma",
+            branch: "ECE",
+            cgpa: 7.2,
+            skills: ["C", "Embedded"],
+            apt: 40,
+            tech: null,
+            att: 1,
+          },
+          {
+            id: 4,
+            name: "Meera Joshi",
+            branch: "CSE",
+            cgpa: 9.1,
+            skills: ["React", "Node", "DSA"],
+            apt: 100,
+            tech: 80,
+            att: 3,
+          },
+        ],
+        companies: [
+          {
+            id: 1,
+            name: "TechNova",
+            role: "Software Engineer",
+            ctc: 12,
+            minCgpa: 8,
+            branches: ["CSE", "IT"],
+            skills: ["DSA"],
+            minReady: 70,
+          },
+          {
+            id: 2,
+            name: "DataWise",
+            role: "Data Analyst",
+            ctc: 8,
+            minCgpa: 7.5,
+            branches: ["CSE", "IT", "ECE"],
+            skills: ["SQL"],
+            minReady: 55,
+          },
+          {
+            id: 3,
+            name: "CircuitWorks",
+            role: "Embedded Engineer",
+            ctc: 7,
+            minCgpa: 7,
+            branches: ["ECE"],
+            skills: ["C"],
+            minReady: 50,
+          },
+        ],
+        apps: [
+          { s: 1, c: 1, st: "Interview" },
+          { s: 2, c: 2, st: "Shortlisted" },
+          { s: 4, c: 1, st: "Selected" },
+        ],
+        tab: "",
+        uid: 1,
+        role: "student",
+        quiz: null,
+      });
+      let S;
+      try {
+        S = JSON.parse(localStorage.getItem("pf") || "null");
+      } catch (e) {}
+      S = S || def();
+      const save = () => {
+        try {
+          localStorage.setItem("pf", JSON.stringify(S));
+        } catch (e) {}
+      };
+      const $ = (id) => document.getElementById(id);
+      const ready = (s) =>
+        Math.round(
+          0.3 * s.cgpa * 10 + 0.35 * (s.apt || 0) + 0.35 * (s.tech || 0),
+        );
+      const elig = (s, c) =>
+        s.cgpa >= c.minCgpa &&
+        c.branches.includes(s.branch) &&
+        c.skills.every((k) => s.skills.includes(k)) &&
+        ready(s) >= c.minReady;
+      const why = (s, c) => {
+        let r = [];
+        if (s.cgpa < c.minCgpa) r.push("CGPA < " + c.minCgpa);
+        if (!c.branches.includes(s.branch)) r.push("Branch");
+        const m = c.skills.filter((k) => !s.skills.includes(k));
+        if (m.length) r.push("Skill: " + m.join(","));
+        if (ready(s) < c.minReady) r.push("Readiness < " + c.minReady);
+        return r.join(" · ");
+      };
+      const lvl = (r) =>
+        r >= 75
+          ? ["Placement Ready", "ok"]
+          : r >= 50
+            ? ["Improving", "wr"]
+            : ["Needs Work", "er"];
+      const me = () => S.students.find((s) => s.id == S.uid);
+      const tabs = {
+        student: ["Dashboard", "Assessments", "Jobs", "Profile"],
+        admin: ["Overview", "Students", "Companies", "Pipeline"],
+      };
+      function setup() {
+        $("role").innerHTML = ["student", "admin"]
+          .map(
+            (r) =>
+              `<option value="${r}" ${S.role == r ? "selected" : ""}>${r[0].toUpperCase() + r.slice(1)}</option>`,
+          )
+          .join("");
+        $("who").style.display = S.role == "student" ? "" : "none";
+        $("who").innerHTML = S.students
+          .map(
+            (s) =>
+              `<option value="${s.id}" ${s.id == S.uid ? "selected" : ""}>${s.name}</option>`,
+          )
+          .join("");
+        if (!tabs[S.role].includes(S.tab)) S.tab = tabs[S.role][0];
+        $("nav").innerHTML = tabs[S.role]
+          .map(
+            (t) =>
+              `<button class="tab ${t == S.tab ? "on" : ""}" onclick="go('${t}')">${t}</button>`,
+          )
+          .join("");
+        $("v").innerHTML = V[S.role + "_" + S.tab]();
+        save();
+      }
+      function go(t) {
+        S.tab = t;
+        S.quiz = null;
+        setup();
+      }
+      $("role").onchange = (e) => {
+        S.role = e.target.value;
+        S.quiz = null;
+        setup();
+      };
+      $("who").onchange = (e) => {
+        S.uid = +e.target.value;
+        S.quiz = null;
+        setup();
+      };
+      $("th").onclick = () => {
+        const d = document.documentElement,
+          dk = getComputedStyle(d).getPropertyValue("--bg").trim() == "#0f1220";
+        d.dataset.theme = dk ? "light" : "dark";
+      };
+      const bar = (p) => `<div class="bar"><i style="width:${p}%"></i></div>`;
+      const V = {
+        student_Dashboard() {
+          const s = me(),
+            r = ready(s),
+            [l, c] = lvl(r),
+            ok = S.companies.filter((x) => elig(s, x));
+          const tips = [];
+          if (s.apt == null) tips.push("Take the aptitude test");
+          if (s.tech == null) tips.push("Take the technical test");
+          if ((s.apt || 0) < 70 && s.apt != null)
+            tips.push("Practice aptitude – score under 70%");
+          if ((s.tech || 0) < 70 && s.tech != null)
+            tips.push("Revise core CS – score under 70%");
+          if (s.skills.length < 4) tips.push("Add more skills to your profile");
+          return `<div class="grid"><div class="card"><div class="mu">Readiness score</div><div class="big">${r}%</div>${bar(r)}<span class="tag ${c}">${l}</span></div>
+<div class="card"><div class="mu">Aptitude</div><div class="big">${s.apt ?? "–"}${s.apt != null ? "%" : ""}</div>${bar(s.apt || 0)}</div>
+<div class="card"><div class="mu">Technical</div><div class="big">${s.tech ?? "–"}${s.tech != null ? "%" : ""}</div>${bar(s.tech || 0)}</div>
+<div class="card"><div class="mu">Eligible jobs</div><div class="big">${ok.length}</div><div class="mu">of ${S.companies.length} companies</div></div></div>
+<div class="card"><h2>Next steps</h2>${tips.length ? tips.map((t) => `<div>• ${t}</div>`).join("") : "<div>You're on track. Apply to eligible jobs!</div>"}</div>
+<div class="card"><h2>My applications</h2>${appsFor(s.id)}</div>`;
+        },
+        student_Assessments() {
+          if (S.quiz) return quizView();
+          return `<div class="grid">${["aptitude", "technical"].map((k) => `<div class="card"><h2>${k[0].toUpperCase() + k.slice(1)} test</h2><div class="mu">5 questions · last score: ${me()[k == "aptitude" ? "apt" : "tech"] ?? "not taken"}</div><br><button class="btn p" onclick="startQ('${k}')">Start test</button></div>`).join("")}</div>`;
+        },
+        student_Jobs() {
+          const s = me();
+          return S.companies
+            .map((c) => {
+              const ok = elig(s, c),
+                a = S.apps.find((x) => x.s == s.id && x.c == c.id);
+              return `<div class="card row"><div><h3>${c.name} — ${c.role}</h3><div class="mu">₹${c.ctc} LPA · CGPA ≥ ${c.minCgpa} · ${c.branches.join("/")} · Skills: ${c.skills.join(",")} · Readiness ≥ ${c.minReady}</div>${ok ? '<span class="tag ok">Eligible</span>' : `<span class="tag er">Not eligible</span><span class="mu">${why(s, c)}</span>`}</div>
+${a ? `<span class="tag">${a.st}</span>` : `<button class="btn p" ${ok ? "" : "disabled"} onclick="apply(${c.id})">Apply</button>`}</div>`;
+            })
+            .join("");
+        },
+        student_Profile() {
+          const s = me();
+          return `<div class="card"><h2>My profile</h2><div class="grid">
+<label>Name<br><input value="${s.name}" onchange="ed('name',this.value)"></label>
+<label>Branch<br><select onchange="ed('branch',this.value)">${["CSE", "IT", "ECE", "ME"].map((b) => `<option ${b == s.branch ? "selected" : ""}>${b}</option>`).join("")}</select></label>
+<label>CGPA<br><input type="number" step=".1" min="0" max="10" value="${s.cgpa}" onchange="ed('cgpa',+this.value)"></label>
+<label>Skills (comma separated)<br><input value="${s.skills.join(", ")}" onchange="ed('skills',this.value.split(',').map(x=>x.trim()).filter(Boolean))"></label></div></div>`;
+        },
+        admin_Overview() {
+          const st = S.students,
+            n = st.length,
+            rd = st.filter((s) => ready(s) >= 75).length,
+            sel = new Set(
+              S.apps.filter((a) => a.st == "Selected").map((a) => a.s),
+            ).size;
+          return `<div class="grid"><div class="card"><div class="mu">Students</div><div class="big">${n}</div></div><div class="card"><div class="mu">Placement ready</div><div class="big">${rd}</div></div><div class="card"><div class="mu">Companies</div><div class="big">${S.companies.length}</div></div><div class="card"><div class="mu">Placed</div><div class="big">${sel}</div><div class="mu">${Math.round((sel / n) * 100)}% placement rate</div></div></div>
+<div class="card"><h2>Pipeline</h2>${STAGES.map((g) => {
+            const k = S.apps.filter((a) => a.st == g).length;
+            return `<div class="mu">${g} (${k})</div>${bar(S.apps.length ? (k / S.apps.length) * 100 : 0)}`;
+          }).join("")}</div>
+<div class="card"><h2>Average scores</h2><div class="mu">Aptitude ${avg("apt")}% · Technical ${avg("tech")}% · CGPA ${(st.reduce((a, s) => a + s.cgpa, 0) / n).toFixed(2)}</div></div>`;
+        },
+        admin_Students() {
+          return `<div class="card scroll"><table><tr><th>Name</th><th>Branch</th><th>CGPA</th><th>Aptitude</th><th>Technical</th><th>Readiness</th><th>Status</th></tr>${S.students
+            .map((s) => {
+              const p = placed(s.id),
+                [l, c] = lvl(ready(s));
+              return `<tr><td>${s.name}</td><td>${s.branch}</td><td>${s.cgpa}</td><td>${s.apt ?? "–"}</td><td>${s.tech ?? "–"}</td><td>${ready(s)}%</td><td>${p ? '<span class="tag ok">Placed</span>' : `<span class="tag ${c}">${l}</span>`}</td></tr>`;
+            })
+            .join("")}</table></div>
+<button class="btn" onclick="addStu()">+ Add student</button>`;
+        },
+        admin_Companies() {
+          return (
+            S.companies
+              .map(
+                (
+                  c,
+                ) => `<div class="card"><div class="row"><h3>${c.name} — ${c.role} (₹${c.ctc} LPA)</h3><span class="tag">${S.students.filter((s) => elig(s, c)).length} eligible</span></div>
+<div class="row" style="justify-content:flex-start"><label class="mu">Min CGPA <input style="width:70px" type="number" step=".1" value="${c.minCgpa}" onchange="ec(${c.id},'minCgpa',+this.value)"></label>
+<label class="mu">Min readiness <input style="width:70px" type="number" value="${c.minReady}" onchange="ec(${c.id},'minReady',+this.value)"></label>
+<span class="mu">${c.branches.join("/")} · ${c.skills.join(",")}</span></div></div>`,
+              )
+              .join("") +
+            `<button class="btn" onclick="addCo()">+ Add company</button>`
+          );
+        },
+        admin_Pipeline() {
+          const rows = S.apps
+            .map((a, i) => {
+              const s = S.students.find((x) => x.id == a.s),
+                c = S.companies.find((x) => x.id == a.c);
+              return `<tr><td>${s.name}</td><td>${c.name}</td><td><select onchange="stg(${i},this.value)">${STAGES.map((g) => `<option ${g == a.st ? "selected" : ""}>${g}</option>`).join("")}</select></td></tr>`;
+            })
+            .join("");
+          const cands =
+            S.students
+              .flatMap((s) =>
+                S.companies
+                  .filter(
+                    (c) =>
+                      elig(s, c) &&
+                      !S.apps.some((a) => a.s == s.id && a.c == c.id),
+                  )
+                  .map(
+                    (c) =>
+                      `<span class="tag" style="cursor:pointer" onclick="sl(${s.id},${c.id})">+ ${s.name} → ${c.name}</span>`,
+                  ),
+              )
+              .join("") ||
+            '<span class="mu">No pending eligible matches.</span>';
+          return `<div class="card scroll"><h2>Applications</h2><table><tr><th>Student</th><th>Company</th><th>Stage</th></tr>${rows || "<tr><td>None</td></tr>"}</table></div><div class="card"><h2>Shortlist eligible students</h2>${cands}</div>`;
+        },
+      };
+      const avg = (k) => {
+        const a = S.students.filter((s) => s[k] != null);
+        return a.length
+          ? Math.round(a.reduce((t, s) => t + s[k], 0) / a.length)
+          : 0;
+      };
+      const placed = (id) =>
+        S.apps.some((a) => a.s == id && a.st == "Selected");
+      const appsFor = (id) => {
+        const l = S.apps.filter((a) => a.s == id);
+        return l.length
+          ? l
+              .map(
+                (a) =>
+                  `<div>${S.companies.find((c) => c.id == a.c).name} <span class="tag">${a.st}</span></div>`,
+              )
+              .join("")
+          : '<span class="mu">No applications yet.</span>';
+      };
+      function startQ(k) {
+        S.quiz = { k, i: 0, sc: 0, fb: null };
+        setup();
+      }
+      function quizView() {
+        const z = S.quiz,
+          L = Q[z.k];
+        if (z.i >= L.length) {
+          const p = (z.sc / L.length) * 100;
+          return `<div class="card"><h2>Result</h2><div class="big">${p}%</div><div class="mu">${z.sc} of ${L.length} correct</div><br><button class="btn p" onclick="fin()">Save & close</button></div>`;
+        }
+        const q = L[z.i];
+        return `<div class="card"><div class="mu">Question ${z.i + 1} / ${L.length}</div>${bar((z.i / L.length) * 100)}<h2 style="margin-top:12px">${q[0]}</h2>${q[1].map((o, j) => `<button class="opt" onclick="ans(${j})">${o}</button>`).join("")}</div>`;
+      }
+      function ans(j) {
+        const z = S.quiz;
+        if (Q[z.k][z.i][2] == j) z.sc++;
+        z.i++;
+        setup();
+      }
+      function fin() {
+        const z = S.quiz,
+          p = (z.sc / Q[z.k].length) * 100,
+          s = me();
+        s[z.k == "aptitude" ? "apt" : "tech"] = p;
+        S.quiz = null;
+        S.tab = "Dashboard";
+        setup();
+      }
+      function apply(c) {
+        S.apps.push({ s: S.uid, c, st: "Applied" });
+        setup();
+      }
+      function ed(k, v) {
+        me()[k] = v;
+        setup();
+      }
+      function ec(id, k, v) {
+        S.companies.find((c) => c.id == id)[k] = v;
+        setup();
+      }
+      function stg(i, v) {
+        S.apps[i].st = v;
+        setup();
+      }
+      function sl(s, c) {
+        S.apps.push({ s, c, st: "Shortlisted" });
+        setup();
+      }
+      function addStu() {
+        const n = prompt("Student name?");
+        if (!n) return;
+        S.students.push({
+          id: Date.now(),
+          name: n,
+          branch: "CSE",
+          cgpa: 7,
+          skills: [],
+          apt: null,
+          tech: null,
+          att: 0,
+        });
+        setup();
+      }
+      function addCo() {
+        const n = prompt("Company name?");
+        if (!n) return;
+        S.companies.push({
+          id: Date.now(),
+          name: n,
+          role: "Associate Engineer",
+          ctc: 6,
+          minCgpa: 6.5,
+          branches: ["CSE", "IT", "ECE"],
+          skills: [],
+          minReady: 40,
+        });
+        setup();
+      }
+      setup();
+    </script>
+  </body>
+</html>

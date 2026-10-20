@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="form-box pf-card">
+  <h3 class="mb-3">Student Login</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn pf-btn w-100">Login</button>
+  </form>
+  <p class="text-secondary mt-3 mb-0">New student? <a href="{% url 'register' %}">Register</a></p>
+</div>
+{% endblock %}

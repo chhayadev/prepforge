@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Assessments{% endblock %}
+
+{% block content %}
+<h3 class="mb-4">Assessments</h3>
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="pf-card">
+      <h4>Aptitude Test</h4>
+      <p class="text-secondary">{{ apt_count }} questions available · Last score: {{ apt }}%</p>
+      {% if apt_count %}
+        <a href="{% url 'take_test' 'aptitude' %}" class="btn pf-btn">Start test</a>
+      {% else %}
+        <span class="text-secondary">No questions added yet.</span>
+      {% endif %}
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="pf-card">
+      <h4>Technical Test</h4>
+      <p class="text-secondary">{{ tech_count }} questions available · Last score: {{ tech }}%</p>
+      {% if tech_count %}
+        <a href="{% url 'take_test' 'technical' %}" class="btn pf-btn">Start test</a>
+      {% else %}
+        <span class="text-secondary">No questions added yet.</span>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
