@@ -8,6 +8,8 @@
   <p class="lead mt-3">Build your placement skills, track your progress and discover job opportunities that match your eligibility.</p>
   {% if user.is_authenticated and not user.is_staff %}
     <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg mt-3">Go to Dashboard</a>
+  {% elif user.is_authenticated and user.is_staff %}
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-light btn-lg mt-3">Open Overview</a>
   {% else %}
     <a href="{% url 'register' %}" class="btn btn-light btn-lg mt-3">Get Started</a>
     <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg mt-3 ms-2">Login</a>
@@ -31,4 +33,43 @@
     <div class="pf-card"><div class="fs-2">💼</div><h5 class="mt-3">Job Opportunities</h5><p class="text-secondary mb-0">Explore companies and placement eligibility.</p></div>
   </div>
 </div>
+
+<h2 class="fw-bold mt-5">How it works</h2>
+<p class="text-secondary mb-4">Three simple steps to get placement ready.</p>
+
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="pf-card">
+      <div class="tag mb-3">Step 1</div>
+      <h5>Create your profile</h5>
+      <p class="text-secondary mb-0">Register and add your branch, CGPA, skills, photo and resume.</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="pf-card">
+      <div class="tag mb-3">Step 2</div>
+      <h5>Take the tests</h5>
+      <p class="text-secondary mb-0">Attempt aptitude and technical tests and see your readiness score.</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="pf-card">
+      <div class="tag mb-3">Step 3</div>
+      <h5>Apply and get tracked</h5>
+      <p class="text-secondary mb-0">Apply to companies you are eligible for and follow every stage.</p>
+    </div>
+  </div>
+</div>
+
+<section class="hero mt-5 text-center">
+  <h2 class="fw-bold">Ready to start your placement journey?</h2>
+  <p class="lead mt-2">Join PrepForge and know exactly where you stand.</p>
+  {% if user.is_authenticated and not user.is_staff %}
+    <a href="{% url 'jobs' %}" class="btn btn-light btn-lg mt-2">View Jobs</a>
+  {% elif user.is_authenticated and user.is_staff %}
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-light btn-lg mt-2">Open Overview</a>
+  {% else %}
+    <a href="{% url 'register' %}" class="btn btn-light btn-lg mt-2">Register Now</a>
+  {% endif %}
+</section>
 {% endblock %}

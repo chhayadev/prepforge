@@ -98,10 +98,34 @@
       {% block content %}{% endblock %}
     </main>
 
-    <footer class="text-center text-secondary pb-4">
+    <!-- <footer class="text-center text-secondary pb-4">
       PrepForge — Student Placement Readiness and Tracking System
-    </footer>
+    </footer> -->
 
+    <!-- Footer -->
+
+        <footer style="background: var(--card); border-top: 1px solid var(--bd);" class="mt-5 py-4">
+      <div class="container">
+        <div class="row g-3">
+          <div class="col-md-5">
+            <div class="brand mb-2">⚒ PrepForge</div>
+            <div class="text-secondary">Student Placement Readiness and Tracking System</div>
+          </div>
+          <div class="col-md-3">
+            <div class="fw-bold mb-2">Quick links</div>
+            <div><a href="/" class="text-secondary text-decoration-none">Home</a></div>
+            <div><a href="{% url 'contact' %}" class="text-secondary text-decoration-none">Contact Us</a></div>
+          </div>
+          <div class="col-md-4">
+            <div class="fw-bold mb-2">Contact</div>
+            <div class="text-secondary">📧 <a href="mailto:chhaya18180@gmail.com" class="text-secondary text-decoration-none">chhaya18180@gmail.com</a></div>
+            <div class="text-secondary">📞 +91 7986370608</div>
+          </div>
+        </div>
+        <hr style="border-color: var(--bd);">
+        <div class="text-center text-secondary small">© 2026 PrepForge. All rights reserved.</div>
+      </div>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
