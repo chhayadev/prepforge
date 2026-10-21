@@ -24,6 +24,7 @@
     <div>
       {% if row.status %}
         <span class="tag">{{ row.status }}</span>
+        {% if row.interview_date %}<div class="text-secondary small mt-1">Interview: {{ row.interview_date }}</div>{% endif %}
       {% elif row.eligible %}
         <form method="post" action="{% url 'apply_job' row.company.id %}">
           {% csrf_token %}

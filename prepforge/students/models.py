@@ -106,6 +106,7 @@ class Application(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     status = models.CharField(max_length=12, choices=STATUS, default="Applied")
     applied_on = models.DateTimeField(auto_now_add=True)
+    interview_date = models.DateField(null=True, blank=True)
 
     class Meta:
         unique_together = ("student", "company")

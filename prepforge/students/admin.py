@@ -22,9 +22,10 @@ class CompanyAdmin(admin.ModelAdmin):
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ("student", "company", "status", "applied_on")
+    list_display = ("student", "company", "status",
+                    "interview_date", "applied_on")
     list_filter = ("status", "company")
-    list_editable = ("status",)
+    list_editable = ("status", "interview_date")
 
 
 admin.site.register(TestAttempt)

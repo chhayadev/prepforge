@@ -1,18 +1,38 @@
-
+from functools import wraps
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm, ProfileForm
-# from .models import Question, TestAttempt, Company, Application
-from .models import Student, Question, TestAttempt, Company, Application
+from django.contrib.auth.views import redirect_to_login
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Count
+
+from .forms import RegisterForm, ProfileForm
+from .models import Student, Question, TestAttempt, Company, Application
+
+STAGES = ["Applied", "Shortlisted", "Interview", "Selected", "Rejected"]
 
 
 def get_student(request):
     return getattr(request.user, "student_profile", None)
+
+
+def student_required(view):
+    """Only logged-in students can open the page.
+    Admins go to the admin dashboard instead of crashing."""
+    @wraps(view)
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect_to_login(request.get_full_path())
+        s = get_student(request)
+        if s is None:
+            if request.user.is_staff:
+                return redirect("admin_dashboard")
+            messages.error(
+                request, "No student profile found for this account.")
+            return redirect("home")
+        return view(request, s, *args, **kwargs)
+    return wrapper
 
 
 def register(request):
@@ -24,14 +44,8 @@ def register(request):
     return render(request, "register.html", {"form": form})
 
 
-# @login_required
-# def dashboard(request):
-#     student = request.user.student_profile
-#     return render(request, "dashboard.html", {"student": student})
-
-@login_required
-def dashboard(request):
-    s = request.user.student_profile
+@student_required
+def dashboard(request, s):
     readiness = s.readiness()
     apt = s.latest_score("aptitude")
     tech = s.latest_score("technical")
@@ -54,6 +68,8 @@ def dashboard(request):
         tips.append("Revise core CS topics (score below 70%)")
     if len(s.skill_set()) < 3:
         tips.append("Add more skills to your profile")
+    if not s.resume:
+        tips.append("Upload your resume in Profile")
 
     eligible_count = sum(1 for c in Company.objects.all() if c.is_eligible(s))
 
@@ -71,9 +87,8 @@ def dashboard(request):
     })
 
 
-@login_required
-def assessments(request):
-    s = request.user.student_profile
+@student_required
+def assessments(request, s):
     return render(request, "assessments.html", {
         "apt": s.latest_score("aptitude"),
         "tech": s.latest_score("technical"),
@@ -82,12 +97,11 @@ def assessments(request):
     })
 
 
-@login_required
-def take_test(request, category):
+@student_required
+def take_test(request, s, category):
     if category not in ("aptitude", "technical"):
         return redirect("assessments")
 
-    student = request.user.student_profile
     questions = list(Question.objects.filter(
         category=category).order_by("id")[:10])
 
@@ -96,14 +110,13 @@ def take_test(request, category):
         correct = sum(1 for q in questions if request.POST.get(
             f"q{q.id}") == q.correct)
         score = round(correct / total * 100) if total else 0
-        TestAttempt.objects.create(
-            student=student, category=category, score=score)
+        TestAttempt.objects.create(student=s, category=category, score=score)
         return render(request, "result.html", {
             "score": score,
             "correct": correct,
             "total": total,
             "category": category,
-            "readiness": student.readiness(),
+            "readiness": s.readiness(),
         })
 
     return render(request, "take_test.html", {"questions": questions, "category": category})
@@ -125,9 +138,8 @@ def eligibility_reasons(company, s):
     return reasons
 
 
-@login_required
-def jobs(request):
-    s = request.user.student_profile
+@student_required
+def jobs(request, s):
     applied = {a.company_id: a.status for a in s.application_set.all()}
     rows = []
     for c in Company.objects.all():
@@ -141,10 +153,9 @@ def jobs(request):
     return render(request, "jobs.html", {"rows": rows, "readiness": s.readiness()})
 
 
-@login_required
-def apply_job(request, company_id):
+@student_required
+def apply_job(request, s, company_id):
     if request.method == "POST":
-        s = request.user.student_profile
         company = get_object_or_404(Company, id=company_id)
         if company.is_eligible(s):
             _, created = Application.objects.get_or_create(
@@ -158,18 +169,14 @@ def apply_job(request, company_id):
     return redirect("jobs")
 
 
-@login_required
-def profile(request):
-    s = request.user.student_profile
+@student_required
+def profile(request, s):
     form = ProfileForm(request.POST or None, request.FILES or None, instance=s)
     if request.method == "POST" and form.is_valid():
         form.save()
         messages.success(request, "Profile updated.")
         return redirect("profile")
-    return render(request, "profile.html", {"form": form})
-
-
-STAGES = ["Applied", "Shortlisted", "Interview", "Selected", "Rejected"]
+    return render(request, "profile.html", {"form": form, "student": s})
 
 
 @staff_member_required
@@ -197,12 +204,12 @@ def admin_dashboard(request):
             n / total_apps * 100) if total_apps else 0})
 
     top_students = sorted(
-        students, key=lambda s: s.readiness(), reverse=True)[:5]
-    top = [{"student": s, "readiness": s.readiness()} for s in top_students]
+        students, key=lambda x: x.readiness(), reverse=True)[:5]
+    top = [{"student": x, "readiness": x.readiness()} for x in top_students]
 
     return render(request, "admin_dashboard.html", {
         "total_students": total_students,
-        "ready": sum(1 for s in students if s.readiness() >= 75),
+        "ready": sum(1 for x in students if x.readiness() >= 75),
         "placed": placed,
         "placement_rate": round(placed / total_students * 100) if total_students else 0,
         "total_companies": Company.objects.count(),
