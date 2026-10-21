@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="form-box pf-card">
+  <div class="text-center mb-3">
+    {% if student.image %}
+      <img src="{{ student.image.url }}" alt="Photo" class="rounded-circle" style="width:100px;height:100px;object-fit:cover;">
+    {% else %}
+      <div class="rounded-circle d-inline-flex align-items-center justify-content-center fs-1 fw-bold" style="width:100px;height:100px;background:var(--ac2);color:var(--ac);">{{ student.full_name|first|upper }}</div>
+    {% endif %}
+  </div>
+  <h3 class="mb-3">My Profile</h3>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn pf-btn w-100">Save changes</button>
+  </form>
+</div>
+{% endblock %}

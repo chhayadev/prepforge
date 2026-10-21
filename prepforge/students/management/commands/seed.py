@@ -39,9 +39,9 @@ TECHNICAL = [
 ]
 
 COMPANIES = [
-    ("TechNova", "Software Engineer", 12, 8.0, "CSE,IT", "Python", 70),
-    ("DataWise", "Data Analyst", 8, 7.0, "CSE,IT,ECE", "SQL", 50),
-    ("StartupHub", "Associate Developer", 6, 6.5, "CSE,IT,ECE,ME", "", 40),
+    ("TechNova", "Software Engineer", 12, 8.0, "Btech,BE,MCA", "Python", 70),
+    ("DataWise", "Data Analyst", 8, 7.0, "Btech,BE,MCA,BCA", "SQL", 50),
+    ("StartupHub", "Associate Developer", 6, 6.5, "Btech,BE,MCA,BCA", "", 40),
 ]
 
 

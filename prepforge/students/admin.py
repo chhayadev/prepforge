@@ -4,7 +4,7 @@ from .models import Student, Question, TestAttempt, Company, Application
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ("full_name", "roll_number", "branch", "cgpa")
+    list_display = ("full_name", "roll_number", "branch", "cgpa", "resume")
     search_fields = ("full_name", "roll_number")
     list_filter = ("branch",)
 

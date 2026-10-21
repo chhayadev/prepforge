@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Jobs{% endblock %}
+
+{% block content %}
+<h3 class="mb-1">Job Opportunities</h3>
+<p class="text-secondary mb-4">Your readiness score: {{ readiness }}%</p>
+
+{% for row in rows %}
+<div class="pf-card mb-3">
+  <div class="d-flex justify-content-between flex-wrap gap-2">
+    <div>
+      <h5 class="mb-1">{{ row.company.name }} — {{ row.company.role }}</h5>
+      <div class="text-secondary">₹{{ row.company.ctc }} LPA · CGPA ≥ {{ row.company.min_cgpa }} · {{ row.company.branches }} · Readiness ≥ {{ row.company.min_readiness }}%</div>
+      {% if row.company.required_skills %}<div class="text-secondary">Skills: {{ row.company.required_skills }}</div>{% endif %}
+      <div class="mt-2">
+        {% if row.eligible %}
+          <span class="badge bg-success">Eligible</span>
+        {% else %}
+          <span class="badge bg-danger">Not eligible</span>
+          {% for r in row.reasons %}<span class="text-secondary ms-2">{{ r }}</span>{% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <div>
+      {% if row.status %}
+        <span class="tag">{{ row.status }}</span>
+      {% elif row.eligible %}
+        <form method="post" action="{% url 'apply_job' row.company.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn pf-btn">Apply</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% empty %}
+<p class="text-secondary">No companies added yet.</p>
+{% endfor %}
+{% endblock %}

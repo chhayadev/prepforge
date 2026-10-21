@@ -14,6 +14,7 @@ class Student(models.Model):
     roll_number = models.CharField(max_length=30, unique=True)
     phone = models.CharField(max_length=15, blank=True)
     image = models.ImageField(upload_to="students/", blank=True, null=True)
+    resume = models.FileField(upload_to="resumes/", blank=True, null=True)
 
     # Academic details
     branch = models.CharField(max_length=10, default="CSE")

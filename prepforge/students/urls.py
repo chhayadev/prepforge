@@ -9,4 +9,8 @@ urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path("assessments/", views.assessments, name="assessments"),
     path("test/<str:category>/", views.take_test, name="take_test"),
+    path("jobs/", views.jobs, name="jobs"),
+    path("apply/<int:company_id>/", views.apply_job, name="apply_job"),
+    path("profile/", views.profile, name="profile"),
+    path("admin-dashboard/", views.admin_dashboard, name="admin_dashboard"),
 ]
