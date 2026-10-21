@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Student, Question, TestAttempt, Company, Application
+from .models import Student, Question, TestAttempt, Company, Application, ContactMessage
 
 
 @admin.register(Student)
@@ -26,6 +26,12 @@ class ApplicationAdmin(admin.ModelAdmin):
                     "interview_date", "applied_on")
     list_filter = ("status", "company")
     list_editable = ("status", "interview_date")
+
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ("name", "email", "subject", "created_on")
+    search_fields = ("name", "email", "subject")
 
 
 admin.site.register(TestAttempt)

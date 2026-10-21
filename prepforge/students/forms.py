@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Student
+from .models import Student, ContactMessage
 
 BRANCHES = [("Btech", "Btech"), ("MCA", "MCA"), ("BCA", "BCA"), ("BE", "BE")]
 
@@ -53,3 +53,10 @@ class ProfileForm(forms.ModelForm):
         if f and f.size > 2 * 1024 * 1024:
             raise forms.ValidationError("Photo must be under 2 MB.")
         return f
+
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = ContactMessage
+        fields = ["name", "email", "subject", "message"]
+        widgets = {"message": forms.Textarea(attrs={"rows": 4})}

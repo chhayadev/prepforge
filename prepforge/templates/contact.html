@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+<h3 class="mb-1">Contact Us</h3>
+<p class="text-secondary mb-4">Have a question or feedback? Send us a message.</p>
+
+<div class="row g-3">
+  <div class="col-lg-7">
+    <div class="form-box pf-card" style="max-width:none;">
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn pf-btn w-100">Send message</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="pf-card">
+      <h5 class="mb-3">Get in touch</h5>
+      <p class="mb-2">📧 <a href="mailto:your.email@example.com">chhaya18180@gmail.com</a></p>
+      <p class="mb-2">📞 +91 79863-70608</p>
+      <p class="mb-0 text-secondary">📍 Chhay Kumari , Student at LPU Phagwara, Punjab</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

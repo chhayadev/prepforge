@@ -62,6 +62,7 @@
         <a class="navbar-brand brand" href="/">⚒ PrepForge</a>
 
         <div class="ms-auto d-flex gap-2 align-items-center">
+                    <a href="{% url 'contact' %}" class="btn pf-btn-outline btn-sm">Contact</a>
           {% if user.is_authenticated and not user.is_staff %}
             <a href="{% url 'dashboard' %}" class="btn pf-btn-outline btn-sm">Dashboard</a>
             <a href="{% url 'assessments' %}" class="btn pf-btn-outline btn-sm">Assessments</a>

@@ -7,7 +7,7 @@ from django.contrib.auth.views import redirect_to_login
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Count
 
-from .forms import RegisterForm, ProfileForm
+from .forms import RegisterForm, ProfileForm,  ContactForm
 from .models import Student, Question, TestAttempt, Company, Application
 
 STAGES = ["Applied", "Shortlisted", "Interview", "Selected", "Rejected"]
@@ -220,3 +220,13 @@ def admin_dashboard(request):
         "companies": Company.objects.annotate(n=Count("application")).order_by("-n"),
         "applications": Application.objects.select_related("student", "company").order_by("-applied_on"),
     })
+
+
+def contact(request):
+    form = ContactForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(
+            request, "Thank you! Your message has been sent. We will get back to you soon.")
+        return redirect("contact")
+    return render(request, "contact.html", {"form": form})
